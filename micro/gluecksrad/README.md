@@ -1,33 +1,44 @@
 # Gluecksrad
 
-Ein persoenliches Gluecksrad fuer Entscheidungen, Auslosungen und zufaellige Auswahl. Die Anwendung laeuft vollstaendig im Browser.
+Ein interaktives Glücksrad mit eigenen Werten. Dreh das Rad und lass den Zufall entscheiden.
 
-## Funktionen
+## Features
 
-- Bis zu 12 eigene Werte verwalten
-- Werte hinzufuegen, loeschen, zuruecksetzen und Beispielwerte laden
-- Eigenen Titel vergeben
-- Gluecksrad drehen und Ergebnis anzeigen
-- Soundeffekte ein- und ausschalten
-- Titel und Werte dauerhaft im Browser speichern
+- Eigene Werte hinzufügen (bis zu 12)
+- Farbiges Rad mit automatischer Segment-Verteilung
+- Realistische Dreh-Animation mit Easing
+- Sound-Effekte für Drehen und Gewinn (mit Web Audio API)
+- Konfetti-Effekt beim Gewinn
+- Titel individuell anpassbar
+- Werte und Titel werden in localStorage gespeichert
+- Beispielwerte per Klick
+- Deutsche UI
 
-## Technik
+## Nutzung
 
-- HTML, CSS und Vanilla JavaScript
-- HTML-Canvas fuer die Darstellung
-- Web Audio API fuer Soundeffekte
-- `localStorage` fuer die lokale Speicherung
+1. index.html im Browser öffnen
+2. Titel oben anklicken und bearbeiten (optional)
+3. Werte unten eingeben und mit "Hinzufügen" bestätigen
+4. Auf "DREHEN" klicken
+5. Gewinner wird oben angezeigt, mit Konfetti
 
-## Start
+### Tastenkürzel
 
-Keine Installation erforderlich. Oeffne [index.html](index.html) direkt im Browser. Alternativ kann ein beliebiger statischer HTTP-Server verwendet werden.
+- Enter im Eingabefeld: Wert hinzufügen
+- Enter im Titel: Bearbeitung speichern
 
-```text
-glücksrad/index.html
-```
+## Tech
 
-Es gibt kein Backend, keine Datenbank und keine Umgebungsvariablen.
+- HTML5 (Canvas)
+- CSS3
+- Vanilla JavaScript (ES6+)
+- Web Audio API für Sound
+- Web Animations API für Konfetti
 
 ## Datenschutz
 
-Die eingegebenen Werte bleiben im `localStorage` des verwendeten Browsers und werden nicht an einen Server gesendet.
+Alles läuft lokal. Keine Server, keine Tracker, keine Daten verlassen deinen Browser.
+
+## Lizenz
+
+MIT

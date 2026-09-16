@@ -1,28 +1,41 @@
-# Pfand-o-Mat
+# Pfand-O-Mat
 
-Der Pfand-o-Mat zaehlt zurueckgegebene Pfandflaschen und zeigt den daraus erreichten Geldbetrag sowie den Fortschritt zu einem Sparziel.
+Ein einfacher Pfandzähler mit Sparziel-Funktion. Zähle deine Flaschen und sieh, wie viel Pfand du bereits gesammelt hast.
 
-## Funktionen
+## Features
 
-- Flaschenzaehler erhoehen, verringern und zuruecksetzen
-- Berechnung mit einem festen Pfandwert von `0,25 EUR` pro Flasche
-- Sparziel als Anzahl von Flaschen festlegen
-- Fortschrittsbalken und prozentuale Zielerreichung anzeigen
-- Zaehler und Ziel lokal im Browser speichern
-- Alle gespeicherten Daten loeschen
+- Flaschen-Zähler mit Plus/Minus-Button
+- Automatische Berechnung des Pfandwerts (0,25 Euro pro Flasche)
+- Sparziel in Flaschen festlegen
+- Fortschrittsbalken in Prozent
+- Automatisches Speichern in localStorage
+- Zähler zurücksetzen (mit Bestätigung)
+- Alle Daten löschen (Hard Reset)
+- Deutsche UI
 
-## Technik
+## Nutzung
 
-- Statisches HTML, CSS und Vanilla JavaScript
-- `localStorage`
-- Kein Backend, keine Datenbank und keine externe API
+1. index.html im Browser öffnen
+2. Flaschen über "+1" und "-1" zählen
+3. Sparziel eingeben und auf "Ziel setzen" klicken
+4. Fortschritt wird automatisch im Balken angezeigt
+5. Bei Bedarf Zähler oder Ziel zurücksetzen
 
-## Start
+### Speicherung
 
-Keine Installation erforderlich. Oeffne [index.html](index.html) direkt im Browser:
+Alle Daten werden automatisch im localStorage gespeichert. Beim erneuten Öffnen ist alles noch da.
 
-```text
-pfand-o-mat/index.html
-```
+## Tech
 
-Die Daten werden nur im `localStorage` des jeweiligen Browsers gespeichert.
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
+- localStorage für Persistenz
+
+## Datenschutz
+
+Alles läuft lokal. Keine Server, keine Tracker, keine Daten verlassen deinen Browser.
+
+## Lizenz
+
+MIT

@@ -1,23 +1,40 @@
-# QR-Code Generator
+# QRY
 
-Ein einfacher, rein clientseitiger QR-Code-Generator.
-Unterstützt **Text/URLs**, **WLAN-Zugangsdaten** und **Passwörter**.
+QR-Code-Generator für Text, WLAN-Zugangsdaten und Passwörter. Alles läuft direkt im Browser, ohne Server.
 
 ## Features
 
-- Text, URL, WLAN oder Passwort als QR-Code
-- Einstellbare Größe (128–1024 px)
-- Fehlerkorrektur-Level L / M / Q / H
+- Drei Modi: Text/URL, WLAN, Passwort
+- WLAN-QR-Codes mit SSID, Passwort, Verschlüsselung (WPA/WEP/kein Passwort) und verstecktem Netzwerk
+- Größe einstellbar (128 bis 1024 px)
+- Fehlerkorrektur-Level wählbar (L, M, Q, H)
 - Download als PNG
-- **Kein Server nötig** – läuft komplett im Browser
+- Läuft komplett offline im Browser
 
 ## Nutzung
 
-Einfach `index.html` im Browser öffnen. Fertig.
+1. index.html im Browser öffnen
+2. Tab wählen: Text, WLAN oder Passwort
+3. Daten eingeben
+4. Größe und Fehlerkorrektur einstellen
+5. Auf "QR-Code erzeugen" klicken
+6. Optional als PNG herunterladen
 
-Alternativ über einen lokalen Server (z. B. wegen CORS bei manchen Browsern):
+### WLAN-QR-Codes
 
-```bash
-python3 -m http.server 8000
-# oder
-npx serve
+Das Format ist standardisiert und wird von den meisten Smartphones (iOS, Android) direkt erkannt. Beim Scannen verbindet sich das Gerät automatisch mit dem Netzwerk.
+
+## Tech
+
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
+- qrcode.js via CDN
+
+## Datenschutz
+
+Alles läuft lokal. Es werden keine Daten an Server gesendet. Die QR-Codes werden direkt im Browser generiert.
+
+## Lizenz
+
+MIT

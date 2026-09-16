@@ -1,0 +1,602 @@
+/* ============================================================
+   RESET & VARS
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #fdf7ff;
+    --bg-2: #ffffff;
+    --card: #ffffff;
+    --border: #f0e6ff;
+    --border-strong: #e4d4ff;
+
+    --text: #2d1b3d;
+    --text-dim: #7a6a8a;
+
+    --pink: #f472b6;
+    --pink-dark: #db2777;
+    --purple: #a78bfa;
+    --purple-dark: #8b5cf6;
+    --yellow: #fbbf24;
+    --mint: #6ee7b7;
+
+    --grad: linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
+    --shadow: 0 4px 16px rgba(167, 139, 250, 0.08);
+    --shadow-lg: 0 20px 50px rgba(167, 139, 250, 0.18);
+
+    --radius: 18px;
+    --radius-sm: 12px;
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+html, body { min-height: 100%; }
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(244, 114, 182, 0.15), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(60px);
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -200px;
+    left: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.12), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(60px);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.app-header {
+    position: relative;
+    z-index: 1;
+    padding: 40px 24px 16px;
+    text-align: center;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.logo svg {
+    filter: drop-shadow(0 4px 12px rgba(244, 114, 182, 0.35));
+}
+
+.logo h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+}
+
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+
+.app {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.card h2 {
+    font-size: 1.15rem;
+    margin-bottom: 18px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.card-header h2 {
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   FORMULAR
+   ============================================================ */
+
+.birthday-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    letter-spacing: 0.3px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.12);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #b8aac8;
+}
+
+.form-group textarea {
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: var(--grad);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(244, 114, 182, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(167, 139, 250, 0.45);
+}
+
+.btn-secondary {
+    background: var(--bg);
+    color: var(--purple-dark);
+    border: 2px solid var(--border-strong);
+}
+
+.btn-secondary:hover {
+    border-color: var(--purple);
+    background: rgba(167, 139, 250, 0.06);
+}
+
+/* ============================================================
+   LEGENDE
+   ============================================================ */
+
+.legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot.familie { background: #f472b6; }
+.legend-dot.freunde { background: #a78bfa; }
+.legend-dot.arbeit { background: #6ee7b7; }
+.legend-dot.sonstiges { background: #fbbf24; }
+
+/* ============================================================
+   KALENDER
+   ============================================================ */
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.month {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    border: 1px solid var(--border);
+}
+
+.month-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    color: var(--purple-dark);
+    letter-spacing: 0.3px;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.day-label {
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-weight: 700;
+    padding: 3px 0;
+    text-transform: uppercase;
+}
+
+.day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    position: relative;
+    color: var(--text-dim);
+    transition: all 0.15s;
+}
+
+.day.empty {
+    visibility: hidden;
+}
+
+.day.today {
+    background: var(--grad);
+    color: #fff;
+    font-weight: 800;
+    box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.3);
+}
+
+.day.has-birthday {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text);
+    background: rgba(244, 114, 182, 0.1);
+    border: 1px solid rgba(244, 114, 182, 0.25);
+}
+
+.day.has-birthday:hover {
+    transform: scale(1.15);
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
+}
+
+.day.today.has-birthday {
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    animation: pulse-today 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-today {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.3); }
+    50%      { box-shadow: 0 0 0 6px rgba(244, 114, 182, 0.15); }
+}
+
+.day.has-birthday.gruppe-familie { border-color: #f472b6; }
+.day.has-birthday.gruppe-freunde { border-color: #a78bfa; }
+.day.has-birthday.gruppe-arbeit { border-color: #6ee7b7; }
+.day.has-birthday.gruppe-sonstiges { border-color: #fbbf24; }
+
+.day-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    max-width: 220px;
+    white-space: normal;
+    text-align: center;
+}
+
+.day-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--text);
+}
+
+.day:hover .day-tooltip {
+    opacity: 1;
+}
+
+/* ============================================================
+   MODAL (Generator)
+   ============================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 27, 61, 0.6);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 32px;
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--bg);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-dim);
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: var(--border);
+    color: var(--text);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    font-weight: 800;
+}
+
+.modal-subtitle {
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.modal-subtitle strong {
+    color: var(--purple-dark);
+}
+
+.generator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.generator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.generator-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.generator-actions .btn {
+    flex: 1;
+}
+
+.generator-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.preview-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#preview-frame {
+    width: 100%;
+    height: 520px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.app-footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+    .generator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #preview-frame {
+        height: 400px;
+    }
+}
+
+@media (max-width: 600px) {
+    .app {
+        padding: 16px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+
+    .calendar {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        padding: 24px 20px;
+    }
+
+    .generator-actions {
+        flex-direction: column;
+    }
+
+    .day {
+        font-size: 0.7rem;
+    }
+}
