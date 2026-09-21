@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voxify - Podcast Generator</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/x-icon+xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <h1>Voxify</h1>
+            </div>
+            <p class="subtitle">Dein Skript → Natürlicher Podcast</p>
+            <div class="badge-container">
+                <span class="badge">⚡ Kostenloses TTS (kein API-Key)</span>
+                <span class="badge">🎤 Mehrere Stimmen</span>
+                <span class="badge">📥 Export als MP3</span>
+            </div>
+        </header>
+
+        <!-- SKRIPT EINGABE -->
+        <div class="script-section">
+            <div class="script-header">
+                <label for="scriptInput">📝 Dein Skript</label>
+                <div class="script-actions">
+                    <span id="charCount">0 Zeichen</span>
+                    <button onclick="loadExample()" class="example-btn">📄 Beispiel laden</button>
+                    <button onclick="document.getElementById('fileInput').click()" class="upload-btn">📤 Datei hochladen</button>
+                    <input type="file" id="fileInput" accept=".txt,.md" style="display:none">
+                </div>
+            </div>
+                <textarea id="scriptInput" placeholder="Schreibe deinen Text oder Buchabschnitt hier...\n\nBeispiel: Eine kurze Einführung in Kapitel 1, gefolgt von fortlaufendem Text."></textarea>
+        </div>
+
+        <!-- SPRACHE AUSWAHL (vereinfacht) -->
+        <div class="voices-section">
+            <h3>🌐 Sprache wählen</h3>
+            <div class="voice-selectors">
+                <div class="voice-group">
+                    <label>Sprache</label>
+                    <select id="language">
+                        <option value="de-DE" selected>Deutsch (de-DE)</option>
+                        <option value="en-US">English (en-US)</option>
+                        <option value="fr-FR">Français (fr-FR)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- EINSTELLUNGEN -->
+        <div class="settings-section">
+            <h3>⚙️ Einstellungen</h3>
+            <div class="settings-grid">
+                <div class="setting-group">
+                    <label>🔊 Geschwindigkeit</label>
+                    <input type="range" id="speed" min="0.5" max="2.0" value="1.0" step="0.05">
+                    <span class="setting-value" id="speedValue">1.0x</span>
+                </div>
+                <div class="setting-group">
+                    <label>🎯 Sprechpause (s)</label>
+                    <input type="range" id="pause" min="0.1" max="2.0" value="0.5" step="0.1">
+                    <span class="setting-value" id="pauseValue">0.5s</span>
+                </div>
+                <div class="setting-group">
+                    <label>🗣️ Stimmung</label>
+                    <select id="mood">
+                        <option value="neutral">Neutral</option>
+                        <option value="enthusiastic">Enthusiastisch</option>
+                        <option value="calm">Ruhig</option>
+                        <option value="professional">Professionell</option>
+                        <option value="friendly">Freundlich</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button class="generate-btn" id="generateBtn" onclick="generatePodcast()">
+                🎙️ Podcast generieren
+            </button>
+            <button class="reset-btn" onclick="resetAll()">
+                🔄 Zurücksetzen
+            </button>
+        </div>
+
+        <!-- STATUS -->
+        <div id="status" class="status">📝 Schreibe dein Skript oder lade ein Beispiel</div>
+
+        <!-- PLAYER -->
+        <div class="player" id="player" style="display:none;">
+            <div class="player-title">🎧 Podcast abspielen</div>
+            <audio id="audioPlayer" controls></audio>
+            <div class="player-actions">
+                <button class="download-btn" onclick="downloadPodcast()">
+                    📥 Podcast herunterladen (MP3)
+                </button>
+                <button class="transcript-btn" onclick="showTranscript()">
+                    📄 Transkript anzeigen
+                </button>
+            </div>
+            <div id="transcriptDisplay" class="transcript-display" style="display:none;"></div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <span>⚡ Lokales TTS via Google Translate (inoffiziell)</span>
+            <span>🎙️ Voxify v1.0</span>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

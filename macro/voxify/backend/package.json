@@ -1,0 +1,14 @@
+{
+  "name": "voxify-backend",
+  "version": "1.0.0",
+  "description": "🎙️ Voxify Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "google-tts-api": "^2.0.1",
+    "node-fetch": "^2.6.7"
+  }
+}

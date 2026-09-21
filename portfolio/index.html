@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Onur Kara – Software Developer. I build websites, CLI tools, bots, and cross-platform apps.">
+    <meta name="keywords" content="Software Developer, Python, CLI Tools, Node.js, React Native, Edge AI, Portfolio">
+    <meta name="author" content="Onur Kara">
+    <title>Onur Kara | Software Developer</title>
+    <link rel="icon" type="image/svg+xml" href="src/assets/favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <!-- Dark/Light Mode Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="#home">Onur Kara</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#links" class="nav-link">Links</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Hi, I'm <span class="highlight">Onur Kara</span></h1>
+                    <div class="typing-wrapper">
+                        <span id="typed-text"></span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>I build software – websites, CLI tools, bots, and cross-platform apps. My long-term focus: <strong>Edge AI</strong>.</p>
+                    <div class="hero-buttons">
+                        <a href="#links" class="btn btn-primary">Get in touch</a>
+                        <a href="src/assets/lebenslauf_OnurKara.pdf" class="btn btn-secondary" download>CV <i class="fas fa-download"></i></a>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/okara-dev" target="_blank" rel="noopener" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://karaonur.gumroad.com" target="_blank" rel="noopener" aria-label="Gumroad">
+                            <i class="fas fa-store"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="profile-placeholder">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About</h2>
+            <p class="section-subtitle">A little about what I do</p>
+
+            <div class="about-card">
+                <div class="about-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="about-content">
+                    <h3>Software Development</h3>
+                    <p>
+                        I'm a software developer building practical tools across different platforms.
+                        My work ranges from full websites and focused CLI tools to Python bots and
+                        cross-platform mobile apps with React Native.
+                    </p>
+                    <p>
+                        My long-term goal is to build <strong>Edge AIs</strong> – running AI models directly
+                        on devices, without the cloud. I'm actively exploring this field and working
+                        toward making it my main focus.
+                    </p>
+                    <div class="about-tags">
+                        <span class="tag">Web</span>
+                        <span class="tag">CLI</span>
+                        <span class="tag">Bots</span>
+                        <span class="tag">React Native</span>
+                        <span class="tag">Edge AI</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">What I build</h2>
+            <p class="section-subtitle">A quick overview</p>
+
+            <!-- Websites -->
+            <div class="project-group">
+                <h3 class="project-group-title">
+                    <i class="fas fa-globe"></i> Websites
+                </h3>
+                <div class="table-wrapper">
+                    <table class="projects-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Tech Stack</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-websites"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CLI Tools -->
+            <div class="project-group">
+                <h3 class="project-group-title">
+                    <i class="fas fa-terminal"></i> CLI Tools
+                </h3>
+                <div class="table-wrapper">
+                    <table class="projects-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Tech Stack</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-cli"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Other -->
+            <div class="project-group">
+                <h3 class="project-group-title">
+                    <i class="fas fa-cube"></i> Other
+                </h3>
+                <div class="table-wrapper">
+                    <table class="projects-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Tech Stack</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-other"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Tech Skills</h2>
+            <p class="section-subtitle">What I work with</p>
+            <div class="skills-grid" id="skills-grid">
+                <!-- Filled via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Links Section -->
+    <section id="links" class="contact">
+        <div class="container">
+            <h2 class="section-title">Links</h2>
+            <p class="section-subtitle">Where to find me</p>
+            <div class="links-wrapper">
+                <a href="mailto:karaonur310@gmail.com" class="link-card">
+                    <div class="link-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="link-info">
+                        <h4>Email</h4>
+                        <p>karaonur310@gmail.com</p>
+                    </div>
+                    <i class="fas fa-arrow-right link-arrow"></i>
+                </a>
+                <a href="https://github.com/okara-dev" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <div class="link-info">
+                        <h4>GitHub</h4>
+                        <p>github.com/okara-dev</p>
+                    </div>
+                    <i class="fas fa-arrow-right link-arrow"></i>
+                </a>
+                <a href="https://karaonur.gumroad.com" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="link-info">
+                        <h4>Gumroad</h4>
+                        <p>karaonur.gumroad.com</p>
+                    </div>
+                    <i class="fas fa-arrow-right link-arrow"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Onur Kara. Built with care.</p>
+        </div>
+    </footer>
+
+    <script src="src/main.js"></script>
+</body>
+</html>

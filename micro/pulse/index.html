@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse | Jahres-Tracker für Freelancer & Shops</title>
+    <link rel="icon" type="image/svg+xml" href="src/assets/favicon.svg">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="logo">
+                <svg viewBox="0 0 64 64" width="34" height="34">
+                    <defs>
+                        <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#22d3ee"/>
+                            <stop offset="1" stop-color="#10b981"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="14" fill="#0b1220"/>
+                    <path d="M8 32 L18 32 L22 22 L28 42 L34 28 L38 32 L56 32"
+                          fill="none" stroke="url(#pg)" stroke-width="4"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>Pulse</h1>
+            </div>
+            <p class="tagline">Track your year. Own your numbers.</p>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab active" data-tab="home">Home</button>
+        <button class="tab" data-tab="revenue">Erlöse</button>
+        <button class="tab" data-tab="costs">Kosten</button>
+    </nav>
+
+    <main class="app">
+
+        <!-- HOME TAB -->
+        <section class="panel active" id="panel-home">
+            <div class="card stats-card">
+                <div class="stat">
+                    <span class="stat-label">Gesamterlös</span>
+                    <span class="stat-value revenue" id="statRevenue">0,00 €</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Gesamtkosten</span>
+                    <span class="stat-value cost" id="statCosts">0,00 €</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Gewinn</span>
+                    <span class="stat-value profit" id="statProfit">0,00 €</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Bester Monat</span>
+                    <span class="stat-value" id="statBest">–</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Ø Gewinn / Monat</span>
+                    <span class="stat-value" id="statAvg">0,00 €</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Eingetragene Monate</span>
+                    <span class="stat-value" id="statMonths">0 / 12</span>
+                </div>
+            </div>
+
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <h2>Gewinn pro Monat</h2>
+                </div>
+                <div class="chart-wrap">
+                    <canvas id="profitChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card export-card">
+                <div class="export-info">
+                    <h3>Jahresübersicht exportieren</h3>
+                    <p id="exportHint">Trage alle 12 Monate ein und exportiere deine Jahresübersicht als CSV-Datei (öffnet in Excel). Danach startest du mit einem leeren Jahr.</p>
+                </div>
+                <button id="exportBtn" class="btn-export">
+                    Jahresübersicht exportieren & neu starten
+                </button>
+            </div>
+        </section>
+
+        <!-- REVENUE TAB -->
+        <section class="panel" id="panel-revenue">
+            <div class="card">
+                <h2>Monatlicher Erlös</h2>
+                <p class="hint">Füge pro Monat beliebig viele Erlösquellen hinzu (z. B. Gumroad, Shop, Kunden). Die Summe wird automatisch berechnet.</p>
+                <div class="months-list" id="revenueList"></div>
+            </div>
+        </section>
+
+        <!-- COSTS TAB -->
+        <section class="panel" id="panel-costs">
+            <div class="card">
+                <h2>Monatliche Kosten</h2>
+                <p class="hint">Füge pro Monat beliebig viele Kostenquellen hinzu (z. B. Hosting, Tools, Material). Die Summe wird automatisch berechnet.</p>
+                <div class="months-list" id="costsList"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>© 2026 Pulse · Alle Daten bleiben lokal in deinem Browser</p>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- CONFIRM MODAL -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <svg viewBox="0 0 64 64" width="48" height="48">
+                    <defs>
+                        <linearGradient id="warn" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#fbbf24"/>
+                            <stop offset="1" stop-color="#ef4444"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M32 8 L56 52 L8 52 Z"
+                          fill="none"
+                          stroke="url(#warn)"
+                          stroke-width="4"
+                          stroke-linejoin="round"/>
+                    <line x1="32" y1="24" x2="32" y2="38"
+                          stroke="url(#warn)"
+                          stroke-width="4"
+                          stroke-linecap="round"/>
+                    <circle cx="32" cy="46" r="2.5" fill="url(#warn)"/>
+                </svg>
+            </div>
+            <h2 class="modal-title">Jahresübersicht exportieren?</h2>
+            <p class="modal-text">
+                Deine Jahresübersicht wird als <strong>CSV-Datei</strong> heruntergeladen
+                (öffnet sich in Excel).<br><br>
+                <strong class="warning">Achtung:</strong> Danach werden <strong>alle Daten gelöscht</strong>,
+                damit du mit einem neuen Jahr starten kannst. Dieser Schritt kann nicht rückgängig gemacht werden.
+            </p>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="modalCancel">Abbrechen</button>
+                <button class="modal-btn modal-btn-confirm" id="modalConfirm">Exportieren & neu starten</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="src/main.js"></script>
+</body>
+</html>
