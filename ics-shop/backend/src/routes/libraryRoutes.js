@@ -4,10 +4,8 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Alle Bibliotheksinhalte
 router.get('/library', authenticateToken, LibraryController.getLibrary);
-
-// Nur eBooks
 router.get('/library/ebooks', authenticateToken, LibraryController.getEbooks);
+router.get('/library/bundle', authenticateToken, LibraryController.getBundle);
 
 module.exports = router;

@@ -55,8 +55,7 @@ class ShopEbookController {
             
             res.json({ 
                 success: true, 
-                message: 'eBook purchased successfully',
-                downloadToken: purchase.download_token
+                message: 'eBook purchased successfully'
             });
         } catch (error) {
             console.error('Purchase error:', error);
@@ -84,16 +83,12 @@ class ShopEbookController {
                 return res.status(404).json({ error: 'File not found' });
             }
             
-            // Auch für nicht eingeloggte User Download ermöglichen
-            // Aber wenn eingeloggt, in user_shop_ebooks speichern
             if (req.user) {
-                await ShopEbook.recordDownload(req.user.id, ebook.id, req.ip);
+                await ShopEbook.recordDownload(req.user.id, ebook.id);
             }
             
             res.download(filePath, ebook.file_name, (err) => {
-                if (err) {
-                    console.error('Download error:', err);
-                }
+                if (err) console.error('Download error:', err);
             });
         } catch (error) {
             console.error('Download error:', error);
@@ -111,17 +106,17 @@ class ShopEbookController {
                 return res.status(404).json({ error: 'eBook not found' });
             }
             
-            // Prüfen: Ist es ein kostenloses eBook? Dann immer erlaubt
+            // Kostenlose eBooks: immer erlaubt
             if (ebook.is_free) {
                 const filePath = ShopEbook.getFilePath(ebook);
                 if (!fs.existsSync(filePath)) {
                     return res.status(404).json({ error: 'File not found' });
                 }
-                await ShopEbook.recordDownload(userId, ebook.id, req.ip);
+                await ShopEbook.recordDownload(userId, ebook.id);
                 return res.download(filePath, ebook.file_name);
             }
             
-            // Kostenpflichtiges eBook: Prüfen ob gekauft
+            // Kostenpflichtig: prüfen ob gekauft
             const hasPurchased = await ShopEbook.hasUserPurchased(userId, ebook.id);
             if (!hasPurchased) {
                 return res.status(403).json({ error: 'You have not purchased this eBook' });
@@ -134,12 +129,10 @@ class ShopEbookController {
                 return res.status(404).json({ error: 'File not found' });
             }
             
-            await ShopEbook.recordDownload(userId, ebook.id, req.ip);
+            await ShopEbook.recordDownload(userId, ebook.id);
             
             res.download(filePath, ebook.file_name, (err) => {
-                if (err) {
-                    console.error('Download error:', err);
-                }
+                if (err) console.error('Download error:', err);
             });
         } catch (error) {
             console.error('Download error:', error);

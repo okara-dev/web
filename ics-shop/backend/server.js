@@ -7,8 +7,7 @@ require('dotenv').config();
 // Routes importieren
 const authRoutes = require('./src/routes/authRoutes');
 const shopEbookRoutes = require('./src/routes/shopEbookRoutes');
-const phaseRoutes = require('./src/routes/phaseRoutes');
-const moduleRoutes = require('./src/routes/moduleRoutes');
+const bundleRoutes = require('./src/routes/bundleRoutes');
 const libraryRoutes = require('./src/routes/libraryRoutes');
 
 const app = express();
@@ -29,31 +28,22 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // ============ ROUTES ============
 app.use('/api', authRoutes);
 app.use('/api', shopEbookRoutes);
-app.use('/api', phaseRoutes);
-app.use('/api', moduleRoutes);
+app.use('/api', bundleRoutes);
 app.use('/api', libraryRoutes);
 
 // ============ CHECKOUT LINKS ============
 app.get('/api/checkout-links', (req, res) => {
     res.json({
-        basic: `https://your-store.lemonsqueezy.com/checkout/buy/${process.env.LEMONSQUEEZY_BASIC_VARIANT_ID || 'demo'}`,
-        advanced: `https://your-store.lemonsqueezy.com/checkout/buy/${process.env.LEMONSQUEEZY_ADVANCED_VARIANT_ID || 'demo'}`,
-        full: `https://your-store.lemonsqueezy.com/checkout/buy/${process.env.LEMONSQUEEZY_FULL_VARIANT_ID || 'demo'}`
+        bundle: `https://your-store.lemonsqueezy.com/checkout/buy/${process.env.LEMONSQUEEZY_BUNDLE_VARIANT_ID || 'demo'}`
     });
 });
 
 // ============ LEMON SQUEEZY WEBHOOK ============
 app.post('/api/webhook/lemon-squeezy', async (req, res) => {
     try {
-        const { Pool } = require('pg');
-        const pool = new Pool({
-            user: process.env.DB_USER || 'postgres',
-            host: process.env.DB_HOST || 'localhost',
-            database: process.env.DB_NAME || 'ebook_empire',
-            password: process.env.DB_PASSWORD || 'postgres',
-            port: process.env.DB_PORT || 5432,
-        });
-
+        const supabase = require('./src/config/supabase');
+        const crypto = require('crypto');
+        
         const event = req.body;
         
         if (event.meta && event.meta.event_name === 'order_created') {
@@ -61,17 +51,65 @@ app.post('/api/webhook/lemon-squeezy', async (req, res) => {
             const customerEmail = order.attributes.customer_email;
             const variantId = order.attributes.first_order_item.variant_id;
             
-            let tier = 'basic';
-            if (variantId === process.env.LEMONSQUEEZY_BASIC_VARIANT_ID) tier = 'basic';
-            else if (variantId === process.env.LEMONSQUEEZY_ADVANCED_VARIANT_ID) tier = 'advanced';
-            else if (variantId === process.env.LEMONSQUEEZY_FULL_VARIANT_ID) tier = 'full';
-            
-            await pool.query(
-                'UPDATE users SET tier = $1, lemon_squeezy_customer_id = $2 WHERE email = $3',
-                [tier, order.attributes.customer_id, customerEmail]
-            );
-            
-            console.log(`✅ User ${customerEmail} upgraded to ${tier}`);
+            // Prüfen ob es das Bundle ist
+            if (variantId === process.env.LEMONSQUEEZY_BUNDLE_VARIANT_ID) {
+                // User finden oder erstellen
+                let user;
+                const { data: existingUser } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('email', customerEmail)
+                    .single();
+                
+                if (existingUser) {
+                    user = existingUser;
+                } else {
+                    const { data: newUser } = await supabase
+                        .from('users')
+                        .insert([{
+                            email: customerEmail,
+                            lemon_squeezy_customer_id: order.attributes.customer_id
+                        }])
+                        .select()
+                        .single();
+                    user = newUser;
+                }
+                
+                // Bundle-ID holen
+                const { data: bundle } = await supabase
+                    .from('bundles')
+                    .select('id')
+                    .eq('slug', 'transformation-bundle')
+                    .single();
+                
+                if (bundle) {
+                    // Bundle kaufen
+                    await supabase
+                        .from('user_bundles')
+                        .upsert({
+                            user_id: user.id,
+                            bundle_id: bundle.id
+                        }, { onConflict: 'user_id,bundle_id' });
+                    
+                    // Alle Bundle-eBooks freischalten
+                    const { data: ebooks } = await supabase
+                        .from('bundle_ebooks')
+                        .select('id')
+                        .eq('bundle_id', bundle.id);
+                    
+                    for (const ebook of ebooks || []) {
+                        await supabase
+                            .from('user_bundle_ebooks')
+                            .upsert({
+                                user_id: user.id,
+                                bundle_ebook_id: ebook.id,
+                                download_token: crypto.randomBytes(32).toString('hex')
+                            }, { onConflict: 'user_id,bundle_ebook_id' });
+                    }
+                    
+                    console.log(`✅ User ${customerEmail} purchased Bundle`);
+                }
+            }
         }
         
         res.status(200).json({ received: true });
@@ -94,7 +132,7 @@ app.get('*', (req, res) => {
 const dirs = [
     path.join(__dirname, 'uploads'),
     path.join(__dirname, 'uploads/shop_eb'),
-    path.join(__dirname, 'uploads/transformation_eb')
+    path.join(__dirname, 'uploads/bundle_eb')
 ];
 
 dirs.forEach(dir => {
@@ -112,7 +150,7 @@ app.listen(PORT, () => {
     ═══════════════════════════════════════════════════
     📁 Frontend: ${frontendPath}
     📁 Shop eBooks: ${path.join(__dirname, 'uploads/shop_eb')}
-    📁 Transformation eBooks: ${path.join(__dirname, 'uploads/transformation_eb')}
+    📁 Bundle eBooks: ${path.join(__dirname, 'uploads/bundle_eb')}
     ═══════════════════════════════════════════════════
     `);
 });

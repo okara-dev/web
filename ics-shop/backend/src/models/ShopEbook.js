@@ -1,97 +1,161 @@
-const pool = require('../config/database');
+const supabase = require('../config/supabase');
 const crypto = require('crypto');
 const path = require('path');
-const fs = require('fs');
 
 class ShopEbook {
     static async getAll() {
-        const result = await pool.query('SELECT * FROM shop_ebooks ORDER BY sort_order');
-        return result.rows.map(row => ({
+        const { data, error } = await supabase
+            .from('shop_ebooks')
+            .select('*')
+            .order('sort_order');
+        
+        if (error) throw error;
+        return data.map(row => ({
             ...row,
             price: parseFloat(row.price) || 0
         }));
     }
     
     static async getFreeEbooks() {
-        const result = await pool.query('SELECT * FROM shop_ebooks WHERE is_free = true ORDER BY sort_order');
-        return result.rows.map(row => ({
+        const { data, error } = await supabase
+            .from('shop_ebooks')
+            .select('*')
+            .eq('is_free', true)
+            .order('sort_order');
+        
+        if (error) throw error;
+        return data.map(row => ({
             ...row,
             price: parseFloat(row.price) || 0
         }));
     }
     
     static async getPaidEbooks() {
-        const result = await pool.query('SELECT * FROM shop_ebooks WHERE is_free = false ORDER BY sort_order');
-        return result.rows.map(row => ({
+        const { data, error } = await supabase
+            .from('shop_ebooks')
+            .select('*')
+            .eq('is_free', false)
+            .order('sort_order');
+        
+        if (error) throw error;
+        return data.map(row => ({
             ...row,
             price: parseFloat(row.price) || 0
         }));
     }
     
     static async getById(id) {
-        const result = await pool.query('SELECT * FROM shop_ebooks WHERE id = $1', [id]);
-        const row = result.rows[0];
-        if (row) {
-            row.price = parseFloat(row.price) || 0;
-        }
-        return row;
+        const { data, error } = await supabase
+            .from('shop_ebooks')
+            .select('*')
+            .eq('id', id)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        if (data) data.price = parseFloat(data.price) || 0;
+        return data;
     }
     
     static async getBySlug(slug) {
-        const result = await pool.query('SELECT * FROM shop_ebooks WHERE slug = $1', [slug]);
-        const row = result.rows[0];
-        if (row) {
-            row.price = parseFloat(row.price) || 0;
-        }
-        return row;
+        const { data, error } = await supabase
+            .from('shop_ebooks')
+            .select('*')
+            .eq('slug', slug)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        if (data) data.price = parseFloat(data.price) || 0;
+        return data;
     }
     
     static async getUserEbooks(userId) {
-        // FIX: LEFT JOIN statt JOIN - zeigt auch kostenlose eBooks an
-        const result = await pool.query(`
-            SELECT se.*, 
-                   CASE WHEN use.id IS NOT NULL THEN true ELSE false END as is_purchased,
-                   use.downloaded_at, 
-                   use.download_token
-            FROM shop_ebooks se
-            LEFT JOIN user_shop_ebooks use ON use.ebook_id = se.id AND use.user_id = $1
-            WHERE se.is_free = true OR use.id IS NOT NULL
-            ORDER BY se.sort_order
-        `, [userId]);
-        return result.rows.map(row => ({
-            ...row,
-            price: parseFloat(row.price) || 0
-        }));
+        // Hole alle gekauften eBooks + kostenlose
+        const { data: purchased, error: purchError } = await supabase
+            .from('user_shop_ebooks')
+            .select(`
+                id,
+                purchased_at,
+                download_token,
+                downloaded_at,
+                shop_ebooks (*)
+            `)
+            .eq('user_id', userId);
+        
+        if (purchError) throw purchError;
+        
+        // Hole kostenlose eBooks
+        const { data: freeEbooks, error: freeError } = await supabase
+            .from('shop_ebooks')
+            .select('*')
+            .eq('is_free', true);
+        
+        if (freeError) throw freeError;
+        
+        // Kombiniere: gekaufte + kostenlose (ohne Duplikate)
+        const purchasedIds = (purchased || []).map(p => p.shop_ebooks.id);
+        const allEbooks = [
+            ...(purchased || []).map(p => ({
+                ...p.shop_ebooks,
+                price: parseFloat(p.shop_ebooks.price) || 0,
+                is_purchased: true,
+                downloaded_at: p.downloaded_at,
+                download_token: p.download_token
+            })),
+            ...freeEbooks
+                .filter(e => !purchasedIds.includes(e.id))
+                .map(e => ({
+                    ...e,
+                    price: 0,
+                    is_purchased: false
+                }))
+        ];
+        
+        return allEbooks.sort((a, b) => a.sort_order - b.sort_order);
     }
     
     static async purchase(userId, ebookId) {
         const downloadToken = crypto.randomBytes(32).toString('hex');
-        const result = await pool.query(`
-            INSERT INTO user_shop_ebooks (user_id, ebook_id, download_token)
-            VALUES ($1, $2, $3)
-            ON CONFLICT (user_id, ebook_id) DO UPDATE
-            SET purchased_at = CURRENT_TIMESTAMP, download_token = $3
-            RETURNING *
-        `, [userId, ebookId, downloadToken]);
-        return result.rows[0];
+        
+        const { data, error } = await supabase
+            .from('user_shop_ebooks')
+            .upsert({
+                user_id: userId,
+                ebook_id: ebookId,
+                download_token: downloadToken,
+                purchased_at: new Date().toISOString()
+            }, { onConflict: 'user_id,ebook_id' })
+            .select()
+            .single();
+        
+        if (error) throw error;
+        return data;
     }
     
     static async hasUserPurchased(userId, ebookId) {
-        const result = await pool.query(
-            'SELECT id FROM user_shop_ebooks WHERE user_id = $1 AND ebook_id = $2',
-            [userId, ebookId]
-        );
-        return result.rows.length > 0;
+        const { data, error } = await supabase
+            .from('user_shop_ebooks')
+            .select('id')
+            .eq('user_id', userId)
+            .eq('ebook_id', ebookId)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        return !!data;
     }
     
-    static async recordDownload(userId, ebookId, ipAddress) {
+    static async recordDownload(userId, ebookId) {
         const downloadToken = crypto.randomBytes(32).toString('hex');
-        await pool.query(`
-            INSERT INTO user_shop_ebooks (user_id, ebook_id, download_token)
-            VALUES ($1, $2, $3)
-            ON CONFLICT (user_id, ebook_id) DO UPDATE
-            SET downloaded_at = CURRENT_TIMESTAMP, download_token = $3
-        `, [downloadToken, userId, ebookId]);
+        
+        const { error } = await supabase
+            .from('user_shop_ebooks')
+            .upsert({
+                user_id: userId,
+                ebook_id: ebookId,
+                download_token: downloadToken,
+                downloaded_at: new Date().toISOString()
+            }, { onConflict: 'user_id,ebook_id' });
+        
+        if (error) throw error;
         return downloadToken;
     }
     
