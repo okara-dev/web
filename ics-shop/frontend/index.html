@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <meta name="theme-color" content="#1a1a2e">
+    <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">
+            <div class="nav-brand" onclick="showPage('home')">
                 <svg width="180" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -33,7 +34,7 @@
             <div class="nav-links">
                 <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Home</a>
                 <a href="#" class="nav-link" data-page="shop"><i class="fas fa-shopping-cart"></i> Shop</a>
-                <a href="#" class="nav-link" data-page="transformation"><i class="fas fa-arrow-right-arrow-left"></i> Transformationsphase</a>
+                <a href="#" class="nav-link" data-page="transformation"><i class="fas fa-arrow-right-arrow-left"></i> Transformation</a>
                 <a href="#" class="nav-link" data-page="library" id="libraryLink" style="display:none"><i class="fas fa-book-open"></i> Bibliothek</a>
                 <a href="#" id="authBtn" class="btn-auth"><i class="fas fa-user"></i> Login</a>
                 <span id="userEmail" class="user-email" style="display:none"><i class="fas fa-user-circle"></i> <span id="userName"></span></span>
@@ -42,98 +43,174 @@
     </nav>
 
     <main id="mainContent">
-        <!-- ============ HOME PAGE ============ -->
+        <!-- ============ HOME ============ -->
         <div id="homePage" class="page active">
             <section class="hero">
                 <div class="container">
                     <div class="hero-content">
+                        <span class="hero-tag">Inner Control System</span>
                         <h1>Die meisten Menschen scheitern nicht, weil sie zu wenig wissen –</h1>
                         <p class="hero-subtitle">sondern weil sie keine Kontrolle über sich selbst haben.</p>
                         <div class="hero-buttons">
                             <button onclick="navigateToShop()" class="btn btn-primary btn-large">
-                                <i class="fas fa-fire"></i> Jetzt System entdecken
+                                <i class="fas fa-fire"></i> eBooks entdecken
                             </button>
                             <button onclick="navigateToTransformation()" class="btn btn-outline btn-large">
-                                <i class="fas fa-arrow-right-arrow-left"></i> Transformationsphase
+                                <i class="fas fa-arrow-right-arrow-left"></i> Transformation
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section class="concept">
-                <div class="container">
-                    <div class="section-header">
-                        <span class="section-tag"><i class="fas fa-lightbulb"></i> Unser Konzept</span>
-                        <h2>Was ist das Inner Control System?</h2>
-                    </div>
-                    <div class="concept-content">
-                        <div class="concept-text">
-                            <p>Das <strong>Inner Control System (ICS)</strong> ist ein strukturierter Transformationsprozess, der dich Schritt für Schritt vom inneren Chaos zur souveränen Präsenz führt.</p>
-                            <p>Es besteht aus <strong>drei Säulen</strong>:</p>
-                            <div class="concept-pillars">
-                                <div class="pillar">
-                                    <div class="pillar-icon"><i class="fas fa-book"></i></div>
-                                    <h4>eBooks</h4>
-                                    <p>Kompaktes Wissen in kurzen, prägnanten Kapiteln – Theorie & Praxis</p>
-                                </div>
-                                <div class="pillar">
-                                    <div class="pillar-icon"><i class="fas fa-cube"></i></div>
-                                    <h4>Transformation Bundle</h4>
-                                    <p>6 eBooks in einem Bundle – dein kompletter Transformationspfad</p>
-                                </div>
-                                <div class="pillar">
-                                    <div class="pillar-icon"><i class="fas fa-brain"></i></div>
-                                    <h4>Perspektivwechsel</h4>
-                                    <p>9 Perspektiven + 6 Sichtweisen, die dein Denken fundamental verändern</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <!-- 1. WIE UNSERE EBOOKS AUFGEBAUT SIND -->
             <section class="ebook-structure">
                 <div class="container">
                     <div class="section-header">
                         <span class="section-tag"><i class="fas fa-book-open"></i> Die eBooks</span>
-                        <h2>So sind unsere eBooks aufgebaut</h2>
+                        <h2>Wie unsere eBooks aufgebaut sind</h2>
                         <p>Kurz, prägnant, praxisnah – kein unnötiges Füllmaterial</p>
                     </div>
+
                     <div class="structure-grid">
                         <div class="structure-card">
                             <div class="structure-icon"><i class="fas fa-compress"></i></div>
-                            <h3>Kurze Kapitel</h3>
-                            <p>Jedes Kapitel ist bewusst kompakt gehalten – du verstehst es sofort</p>
+                            <h3>Viele kleine Kapitel</h3>
+                            <p>
+                                Jedes Kapitel ist bewusst kompakt gehalten – du kannst eines in 10–15 Minuten lesen
+                                und direkt danach anwenden. Kein theoretisches Geschwafel, keine 50-Seiten-Einleitungen.
+                            </p>
+                        </div>
+                        <div class="structure-card">
+                            <div class="structure-icon"><i class="fas fa-brain"></i></div>
+                            <h3>Theorie der Psychologie</h3>
+                            <p>
+                                Jede Idee basiert auf fundierter Psychologie – von Kognitionspsychologie über
+                                Emotionsregulation bis hin zur Evolutionspsychologie. Verständlich erklärt,
+                                ohne Fachchinesisch.
+                            </p>
                         </div>
                         <div class="structure-card">
                             <div class="structure-icon"><i class="fas fa-bolt"></i></div>
-                            <h3>Theorie → Praxis</h3>
-                            <p>Kein unnötiges Geschwafel – jede Theorie wird direkt anwendbar gemacht</p>
-                        </div>
-                        <div class="structure-card">
-                            <div class="structure-icon"><i class="fas fa-check-double"></i></div>
-                            <h3>Anwendung</h3>
-                            <p>Nach jedem Buch: 1–2 Dinge umsetzen – erst dann das nächste starten</p>
+                            <h3>Direkt in die Praxis</h3>
+                            <p>
+                                Jede Theorie wird sofort in eine konkrete Übung oder ein Prinzip übersetzt,
+                                das du im Alltag anwenden kannst. Kein „Wissen zum Sammeln" –
+                                sondern Werkzeuge zum Leben.
+                            </p>
                         </div>
                         <div class="structure-card">
                             <div class="structure-icon"><i class="fas fa-rocket"></i></div>
-                            <h3>Fortschritt</h3>
-                            <p>Jedes eBook baut auf dem vorherigen auf – für echte Transformation</p>
+                            <h3>Klare Progression</h3>
+                            <p>
+                                Jedes eBook baut auf dem vorherigen auf. Du wirst nicht mit Informationen überladen,
+                                sondern Schritt für Schritt geführt – für echte Transformation, nicht kurzfristige Motivation.
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- 2. WAS IST DAS TRANSFORMATIONS BUNDLE -->
+            <section class="bundle-explanation">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-tag"><i class="fas fa-cube"></i> Transformations Bundle</span>
+                        <h2>Was ist das Transformations Bundle?</h2>
+                        <p>6 eBooks in 3 aufeinander aufbauenden Phasen</p>
+                    </div>
+
+                    <div class="bundle-intro">
+                        <p>
+                            Das Transformations Bundle ist <strong>kein Paket</strong> aus 6 zufälligen eBooks.
+                            Es ist ein <strong>zusammenhängender Pfad</strong> in 3 Phasen – jede bereitet die
+                            nächste vor. Du kannst nicht bei Phase 2 anfangen und Phase 1 überspringen,
+                            weil Präsenz ohne innere Ordnung zur Pose wird.
+                        </p>
+                    </div>
+
+                    <div class="bundle-phases">
+                        <div class="bundle-phase">
+                            <div class="bundle-phase-number">Phase 1</div>
+                            <h3>Innenkontrolle</h3>
+                            <p class="bundle-phase-subtitle">Meistere deine innere Welt</p>
+                            <p class="bundle-phase-description">
+                                Bevor irgendetwas nach außen wirkt, muss innen Ordnung herrschen. Du lernst,
+                                deine Gedanken zu beobachten statt ihnen ausgeliefert zu sein, deine Emotionen
+                                zu transformieren – und zu erkennen, wer du wirklich bist, wenn alle Masken fallen.
+                            </p>
+                            <p class="bundle-phase-ebooks">
+                                <i class="fas fa-book"></i> Der Innere Thron · Der Gedankenjäger · Ich.exe
+                            </p>
+                        </div>
+
+                        <div class="bundle-phase">
+                            <div class="bundle-phase-number">Phase 2</div>
+                            <h3>Ausstrahlung</h3>
+                            <p class="bundle-phase-subtitle">Entfalte magnetische Präsenz</p>
+                            <p class="bundle-phase-description">
+                                Wenn innen Ordnung herrscht, wird sie nach außen sichtbar. Du lernst,
+                                durch Körpersprache, Selbstsicherheit und subtile Präsenz eine natürliche
+                                Anziehungskraft aufzubauen – ohne Pose, ohne Tricks, ohne es zu erzwingen.
+                            </p>
+                            <p class="bundle-phase-ebooks">
+                                <i class="fas fa-book"></i> Das Gravitationsfeld
+                            </p>
+                        </div>
+
+                        <div class="bundle-phase">
+                            <div class="bundle-phase-number">Phase 3</div>
+                            <h3>Menschenkenntnis</h3>
+                            <p class="bundle-phase-subtitle">Verstehe, was andere antreibt</p>
+                            <p class="bundle-phase-description">
+                                Mit einem stabilen Selbst und echter Präsenz fehlt nur noch eines: die Fähigkeit,
+                                andere zu verstehen. Du lernst, Motive zu erkennen, Verhalten zu deuten und die
+                                Evolutionspsychologie für dich zu nutzen – ohne manipulativ zu werden.
+                            </p>
+                            <p class="bundle-phase-ebooks">
+                                <i class="fas fa-book"></i> Der unsichtbare Schlüssel · Der evolutionäre Spieler
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bundle-cta">
+                        <button onclick="navigateToTransformation()" class="btn btn-primary btn-large">
+                            <i class="fas fa-cube"></i> Zum Transformations Bundle
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. TRUEYOU -->
+            <section class="trueyou-section">
+                <div class="container">
+                    <div class="trueyou-card">
+                        <div class="trueyou-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="trueyou-content">
+                            <h3>TrueYou – Deine psychologische Analyse</h3>
+                            <p>
+                                Ein eigenständiges Tool, völlig unabhängig vom Inner Control System.
+                                15 Tests für deine tiefen psychologischen Eigenschaften – Schattenseiten,
+                                Bindungstyp, Big 5 & mehr. 3 Tests komplett kostenlos.
+                            </p>
+                            <a href="https://trueyou.de" target="_blank" class="btn btn-secondary">
+                                Zur TrueYou-Website →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 9 PERSPEKTIVWECHSEL (DEKO) -->
             <section class="perspectives">
                 <div class="container">
                     <div class="section-header">
-                        <span class="section-tag"><i class="fas fa-bolt"></i> Zusätzliche Impulse</span>
-                        <h2>9 Perspektivwechsel, die dein Denken verändern</h2>
-                        <p>Diese Gedanken helfen dir, dein Mindset zu erweitern</p>
+                        <span class="section-tag"><i class="fas fa-bolt"></i> Denkanstöße</span>
+                        <h2>9 Perspektivwechsel</h2>
+                        <p>Gedanken, die dein Mindset verändern können</p>
                     </div>
                     <div class="perspectives-grid">
-                        <div class="perspective-card"><span class="quote-icon">"</span><p>Du musst nicht „mehr Selbstvertrauen“ bekommen – du musst aufhören, dich selbst zu hinterfragen.</p></div>
+                        <div class="perspective-card"><span class="quote-icon">"</span><p>Du musst nicht „mehr Selbstvertrauen" bekommen – du musst aufhören, dich selbst zu hinterfragen.</p></div>
                         <div class="perspective-card"><span class="quote-icon">"</span><p>Charisma ist keine angeborene Gabe – es ist Abwesenheit von innerem Krieg.</p></div>
                         <div class="perspective-card"><span class="quote-icon">"</span><p>Andere kontrollieren wollen ist schwach. Dich selbst kontrollieren können ist Macht.</p></div>
                         <div class="perspective-card"><span class="quote-icon">"</span><p>Niemand denkt über dich nach. Alle denken über sich nach. Das ist deine Chance.</p></div>
@@ -145,84 +222,46 @@
                     </div>
                 </div>
             </section>
-
-            <section class="insights">
-                <div class="container">
-                    <div class="section-header">
-                        <span class="section-tag"><i class="fas fa-brain"></i> Mentale Modelle</span>
-                        <h2>6 Sichtweisen, die dein Leben verändern</h2>
-                        <p>Zusätzliche Impulse für deine Entwicklung</p>
-                    </div>
-                    <div class="insights-grid">
-                        <div class="insight-item"><i class="fas fa-quote-left"></i> Erwartungen sind geplante Enttäuschungen.</div>
-                        <div class="insight-item"><i class="fas fa-quote-left"></i> Nicht alles, was du fühlst, ist wahr.</div>
-                        <div class="insight-item"><i class="fas fa-quote-left"></i> Du musst nicht gemocht werden. Du musst echt sein.</div>
-                        <div class="insight-item"><i class="fas fa-quote-left"></i> Stillstand fühlt sich an wie Sicherheit, ist aber Risiko.</div>
-                        <div class="insight-item"><i class="fas fa-quote-left"></i> Vergleich ist Diebstahl von Freude.</div>
-                        <div class="insight-item"><i class="fas fa-quote-left"></i> Kontrolle über andere ist eine Illusion. Kontrolle über dich ist die einzige echte Macht.</div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="trueyou-section">
-                <div class="container">
-                    <div class="trueyou-card">
-                        <div class="trueyou-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="trueyou-content">
-                            <h3>TrueYou – Deine psychologische Analyse</h3>
-                            <p>15 Tests für deine tiefen psychologischen Eigenschaften – Schattenseiten, Bindungstyp, Big 5 & mehr. Völlig unabhängig vom Inner Control System.</p>
-                            <a href="https://trueyou.de" target="_blank" class="btn btn-secondary">Zur TrueYou-Website →</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="cta-section">
-                <div class="container">
-                    <div class="cta-content">
-                        <h2><i class="fas fa-rocket"></i> Bereit für deine Transformation?</h2>
-                        <p>Starte noch heute mit dem Inner Control System</p>
-                        <div class="cta-buttons">
-                            <button onclick="navigateToShop()" class="btn btn-primary btn-large">
-                                <i class="fas fa-shopping-cart"></i> Shop durchstöbern
-                            </button>
-                            <button onclick="navigateToTransformation()" class="btn btn-outline-light btn-large">
-                                <i class="fas fa-arrow-right-arrow-left"></i> Transformationsphase
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
 
-        <!-- ============ SHOP PAGE ============ -->
+        <!-- ============ SHOP ============ -->
         <div id="shopPage" class="page">
             <div class="container">
                 <div class="page-header">
                     <h2><i class="fas fa-shopping-cart"></i> eBook Shop</h2>
                     <p>Wähle deine eBooks und starte deine Transformation</p>
                 </div>
-                <div id="shopEbooksContainer" class="shop-grid">
-                    <!-- Wird von main.js geladen -->
-                </div>
+
+                <section class="shop-section">
+                    <div class="shop-section-header">
+                        <h3><i class="fas fa-gift"></i> Kostenlose eBooks</h3>
+                        <p>Starte sofort – ohne Bezahlung</p>
+                    </div>
+                    <div id="freeEbooksContainer" class="shop-grid"></div>
+                </section>
+
+                <section class="shop-section">
+                    <div class="shop-section-header">
+                        <h3><i class="fas fa-star"></i> Premium eBooks</h3>
+                        <p>Psychologie-Wissen, das dich wirklich weiterbringt</p>
+                    </div>
+                    <div id="paidEbooksContainer" class="shop-grid"></div>
+                </section>
             </div>
         </div>
 
-        <!-- ============ TRANSFORMATION PAGE ============ -->
+        <!-- ============ TRANSFORMATION ============ -->
         <div id="transformationPage" class="page">
             <div class="container">
                 <div class="page-header">
                     <h2><i class="fas fa-cube"></i> Transformations Bundle</h2>
                     <p>Das komplette Bundle für deine Transformation – 6 eBooks</p>
                 </div>
-
-                <div id="bundleContainer" class="bundle-container">
-                    <!-- Wird von main.js geladen -->
-                </div>
+                <div id="bundleContainer" class="bundle-container"></div>
             </div>
         </div>
 
-        <!-- ============ LIBRARY PAGE ============ -->
+        <!-- ============ LIBRARY ============ -->
         <div id="libraryPage" class="page">
             <div class="container">
                 <div class="page-header">
@@ -230,63 +269,197 @@
                     <p>Alle deine eBooks an einem Ort</p>
                 </div>
 
-                <!-- Bundle eBooks -->
                 <section class="library-section" id="bundleLibrarySection" style="display:none;">
                     <div class="library-section-header">
                         <h3><i class="fas fa-cube"></i> Transformations Bundle</h3>
                         <p>Deine 6 Bundle-eBooks</p>
                     </div>
-                    <div id="bundleEbooksContainer" class="library-grid">
-                        <!-- Wird von main.js geladen -->
-                    </div>
+                    <div id="bundleEbooksContainer" class="library-grid"></div>
                 </section>
 
-                <!-- Shop eBooks -->
                 <section class="library-section">
                     <div class="library-section-header">
-                        <h3><i class="fas fa-book"></i> Gekaufte eBooks</h3>
-                        <p>Deine erworbenen eBooks aus dem Shop</p>
+                        <h3><i class="fas fa-book"></i> Deine eBooks</h3>
+                        <p>Alle verfügbaren eBooks in deiner Bibliothek</p>
                     </div>
-                    <div id="purchasedEbooksContainer" class="library-grid">
-                        <!-- Wird von main.js geladen -->
-                    </div>
+                    <div id="purchasedEbooksContainer" class="library-grid"></div>
                 </section>
             </div>
         </div>
     </main>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Inner Control System</h4>
+                    <p>Psychologie-eBooks, die dich wirklich weiterbringen – ohne Umwege, ohne Füllmaterial.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <a href="#" onclick="navigateToShop(); return false;">Alle eBooks</a>
+                    <a href="#" onclick="navigateToTransformation(); return false;">Transformations Bundle</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Extern</h4>
+                    <a href="https://trueyou.de" target="_blank">TrueYou Website</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Rechtliches</h4>
+                    <a href="#" onclick="return false;">Impressum</a>
+                    <a href="#" onclick="return false;">Datenschutz</a>
+                    <a href="#" onclick="return false;">AGB</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© <span id="footerYear"></span> Inner Control System. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Auth Modal -->
     <div id="authModal" class="modal" style="display:none">
-        <div class="modal-content">
-            <span class="close" onclick="closeAuthModal()">&times;</span>
-            <div id="loginForm">
-                <h2><i class="fas fa-hand-peace"></i> Willkommen zurück!</h2>
-                <p>Melde dich an, um auf deine Inhalte zuzugreifen</p>
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password">
-                <button class="btn btn-primary btn-block" onclick="handleLogin()">
-                    <i class="fas fa-sign-in-alt"></i> Login
+        <div class="modal-content auth-modal">
+            <button class="close" onclick="closeAuthModal()" aria-label="Schließen">&times;</button>
+
+            <div id="loginForm" class="auth-form">
+                <div class="auth-icon"><i class="fas fa-hand-peace"></i></div>
+                <h2>Willkommen zurück</h2>
+                <p class="auth-subtitle">Melde dich an, um auf deine Inhalte zuzugreifen</p>
+
+                <div class="auth-field">
+                    <i class="fas fa-envelope field-icon"></i>
+                    <input type="email" id="loginEmail" placeholder="E-Mail-Adresse" required autocomplete="email">
+                </div>
+
+                <div class="auth-field">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" id="loginPassword" placeholder="Passwort" required autocomplete="current-password">
+                    <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)" aria-label="Passwort anzeigen">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <button class="btn btn-primary btn-block" id="loginBtn" onclick="handleLogin()">
+                    <i class="fas fa-sign-in-alt"></i> Einloggen
                 </button>
-                <p class="modal-footer-text">
-                    Noch kein Konto? <a href="#" onclick="toggleAuthForms('register')">
-                        <i class="fas fa-user-plus"></i> Jetzt kostenlos registrieren
+
+                <div class="auth-links">
+                    <a href="#" onclick="showForgotPassword(); return false;">
+                        <i class="fas fa-key"></i> Passwort vergessen?
+                    </a>
+                </div>
+
+                <p class="auth-footer">
+                    Noch kein Konto?
+                    <a href="#" onclick="toggleAuthForms('register'); return false;">Jetzt kostenlos registrieren</a>
+                </p>
+            </div>
+
+            <div id="registerForm" class="auth-form" style="display:none">
+                <div class="auth-icon"><i class="fas fa-user-plus"></i></div>
+                <h2>Konto erstellen</h2>
+                <p class="auth-subtitle">Erhalte Zugriff auf deine Bibliothek</p>
+
+                <div class="auth-field">
+                    <i class="fas fa-envelope field-icon"></i>
+                    <input type="email" id="registerEmail" placeholder="E-Mail-Adresse" required autocomplete="email">
+                </div>
+
+                <div class="auth-field">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" id="registerPassword" placeholder="Passwort (min. 8 Zeichen)" required autocomplete="new-password" oninput="updatePasswordStrength()">
+                    <button type="button" class="toggle-password" onclick="togglePassword('registerPassword', this)" aria-label="Passwort anzeigen">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="password-strength" id="passwordStrength" style="display:none;">
+                    <div class="strength-bars">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                    <div class="strength-label" id="strengthLabel">Passwortstärke</div>
+                </div>
+
+                <div class="password-requirements" id="passwordRequirements">
+                    <div class="req" data-req="length"><i class="fas fa-circle"></i> Mindestens 8 Zeichen</div>
+                    <div class="req" data-req="upper"><i class="fas fa-circle"></i> Ein Großbuchstabe</div>
+                    <div class="req" data-req="lower"><i class="fas fa-circle"></i> Ein Kleinbuchstabe</div>
+                    <div class="req" data-req="number"><i class="fas fa-circle"></i> Eine Zahl</div>
+                </div>
+
+                <button class="btn btn-primary btn-block" id="registerBtn" onclick="handleRegister()">
+                    <i class="fas fa-user-check"></i> Konto erstellen
+                </button>
+
+                <p class="auth-footer">
+                    Bereits registriert?
+                    <a href="#" onclick="toggleAuthForms('login'); return false;">Jetzt einloggen</a>
+                </p>
+            </div>
+
+            <div id="forgotForm" class="auth-form" style="display:none">
+                <div class="auth-icon"><i class="fas fa-key"></i></div>
+                <h2>Passwort zurücksetzen</h2>
+                <p class="auth-subtitle">Wir schicken dir einen Link per E-Mail</p>
+
+                <div class="auth-field">
+                    <i class="fas fa-envelope field-icon"></i>
+                    <input type="email" id="forgotEmail" placeholder="E-Mail-Adresse" required autocomplete="email">
+                </div>
+
+                <button class="btn btn-primary btn-block" id="forgotBtn" onclick="handleForgotPassword()">
+                    <i class="fas fa-paper-plane"></i> Link zusenden
+                </button>
+
+                <p class="auth-footer">
+                    <a href="#" onclick="toggleAuthForms('login'); return false;">
+                        <i class="fas fa-arrow-left"></i> Zurück zum Login
                     </a>
                 </p>
             </div>
-            <div id="registerForm" style="display:none">
-                <h2><i class="fas fa-gift"></i> Kostenlose eBooks geschenkt!</h2>
-                <p>Registriere dich und erhalte sofort 3 kostenlose eBooks</p>
-                <input type="email" id="registerEmail" placeholder="Email" required>
-                <input type="password" id="registerPassword" placeholder="Password (optional)">
-                <button class="btn btn-primary btn-block" onclick="handleRegister()">
-                    <i class="fas fa-user-check"></i> Kostenlos registrieren
+
+            <div id="resetForm" class="auth-form" style="display:none">
+                <div class="auth-icon"><i class="fas fa-shield-alt"></i></div>
+                <h2>Neues Passwort</h2>
+                <p class="auth-subtitle">Wähle ein sicheres Passwort</p>
+
+                <div class="auth-field">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" id="newPassword" placeholder="Neues Passwort (min. 8 Zeichen)" required autocomplete="new-password" oninput="updatePasswordStrength('new')">
+                    <button type="button" class="toggle-password" onclick="togglePassword('newPassword', this)" aria-label="Passwort anzeigen">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="password-strength" id="passwordStrengthNew" style="display:none;">
+                    <div class="strength-bars">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                    <div class="strength-label" id="strengthLabelNew">Passwortstärke</div>
+                </div>
+
+                <div class="auth-field">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" id="newPasswordConfirm" placeholder="Passwort bestätigen" required autocomplete="new-password">
+                    <button type="button" class="toggle-password" onclick="togglePassword('newPasswordConfirm', this)" aria-label="Passwort anzeigen">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <button class="btn btn-primary btn-block" id="resetBtn" onclick="handleResetPassword()">
+                    <i class="fas fa-check"></i> Passwort speichern
                 </button>
-                <p class="modal-footer-text">
-                    Bereits registriert? <a href="#" onclick="toggleAuthForms('login')">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
-                </p>
             </div>
+
+            <div id="modalError" class="modal-error" style="display:none;"></div>
         </div>
     </div>
 
