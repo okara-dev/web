@@ -4,12 +4,13 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Öffentliche Routes
+// Öffentliche Routen
 router.get('/bundles', BundleController.getAll);
 
-// Geschützte Routes
+// Geschützte Routen
 router.get('/my-bundle', authenticateToken, BundleController.getUserBundle);
-router.post('/bundles/purchase', authenticateToken, BundleController.purchase);
 router.get('/bundles/download/:slug', authenticateToken, BundleController.downloadBundleEbook);
+
+// ⚠️ KEIN /bundles/purchase mehr!
 
 module.exports = router;

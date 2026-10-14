@@ -1,75 +1,114 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+const supabase = require('../config/supabase');
 
 class AuthController {
+    /**
+     * Registrierung über Supabase Auth.
+     * Der DB-Trigger on_auth_user_created legt automatisch ein Profil an.
+     */
     static async register(req, res) {
         try {
             const { email, password } = req.body;
-            
-            if (!email) {
-                return res.status(400).json({ error: 'Email is required' });
+
+            if (!email || !password) {
+                return res.status(400).json({ error: 'Email und Passwort sind erforderlich' });
             }
-            
-            let user = await User.findByEmail(email);
-            
-            if (!user) {
-                user = await User.create(email, password);
+
+            if (password.length < 6) {
+                return res.status(400).json({ error: 'Passwort muss mindestens 6 Zeichen haben' });
             }
-            
-            const token = jwt.sign(
-                { id: user.id, email: user.email }, 
-                process.env.JWT_SECRET || 'your-secret-key', 
-                { expiresIn: '30d' }
-            );
-            
-            res.json({ 
-                token, 
-                user: { id: user.id, email: user.email }
+
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password
+            });
+
+            if (error) {
+                return res.status(400).json({ error: error.message });
+            }
+
+            if (!data.user) {
+                return res.status(500).json({ error: 'Registrierung fehlgeschlagen' });
+            }
+
+            // Wenn "Confirm email" in Supabase aus ist, haben wir direkt eine Session
+            if (!data.session) {
+                return res.status(200).json({
+                    message: 'Registrierung erfolgreich. Bitte E-Mail bestätigen.',
+                    requiresEmailConfirmation: true,
+                    user: { id: data.user.id, email: data.user.email }
+                });
+            }
+
+            return res.json({
+                token: data.session.access_token,
+                refreshToken: data.session.refresh_token,
+                user: { id: data.user.id, email: data.user.email }
             });
         } catch (error) {
             console.error('Register error:', error);
-            res.status(500).json({ error: 'Registration failed' });
+            return res.status(500).json({ error: 'Registrierung fehlgeschlagen' });
         }
     }
-    
+
+    /**
+     * Login über Supabase Auth.
+     */
     static async login(req, res) {
         try {
             const { email, password } = req.body;
-            
-            if (!email) {
-                return res.status(400).json({ error: 'Email is required' });
+
+            if (!email || !password) {
+                return res.status(400).json({ error: 'Email und Passwort sind erforderlich' });
             }
-            
-            const user = await User.findByEmail(email);
-            
-            if (!user) {
-                return res.status(401).json({ error: 'Invalid credentials' });
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                return res.status(401).json({ error: 'Ungültige Zugangsdaten' });
             }
-            
-            if (user.password_hash) {
-                const bcrypt = require('bcrypt');
-                const validPassword = await bcrypt.compare(password, user.password_hash);
-                if (!validPassword) {
-                    return res.status(401).json({ error: 'Invalid credentials' });
-                }
-            }
-            
-            await User.updateLastLogin(user.id);
-            
-            const token = jwt.sign(
-                { id: user.id, email: user.email }, 
-                process.env.JWT_SECRET || 'your-secret-key', 
-                { expiresIn: '30d' }
-            );
-            
-            res.json({ 
-                token, 
-                user: { id: user.id, email: user.email }
+
+            return res.json({
+                token: data.session.access_token,
+                refreshToken: data.session.refresh_token,
+                user: { id: data.user.id, email: data.user.email }
             });
         } catch (error) {
             console.error('Login error:', error);
-            res.status(500).json({ error: 'Login failed' });
+            return res.status(500).json({ error: 'Login fehlgeschlagen' });
         }
+    }
+
+    /**
+     * Logout – invalidiert die Session serverseitig.
+     * (Optional: Supabase signOut macht serverseitig nicht viel,
+     * aber wir räumen den Refresh-Token auf.)
+     */
+    static async logout(req, res) {
+        try {
+            const authHeader = req.headers['authorization'];
+            const token = authHeader && authHeader.split(' ')[1];
+
+            if (token) {
+                await supabase.auth.admin.signOut(token);
+            }
+
+            return res.json({ success: true });
+        } catch (error) {
+            console.error('Logout error:', error);
+            return res.json({ success: true }); // Logout darf nie fehlschlagen
+        }
+    }
+
+    /**
+     * Aktuellen User abrufen (Token-Validierung für Frontend).
+     */
+    static async me(req, res) {
+        return res.json({
+            user: { id: req.user.id, email: req.user.email }
+        });
     }
 }
 
