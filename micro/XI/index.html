@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XI - Fußball-Performance-Bewertung</title>
+    <link rel="icon" href="src/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/style.css?v=6">
+</head>
+<body>
+    <!-- Hintergrund-Effekte -->
+    <div class="bg-pitch"></div>
+    <div class="bg-glow glow-top"></div>
+    <div class="bg-glow glow-bottom"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>XI<span>.</span></h1>
+            </div>
+            <p class="subtitle">Positions-spezifische Performance-Bewertung</p>
+            <div class="stat-badge" id="statCount">0 Stats aktiv</div>
+        </header>
+
+        <!-- SPIELZEIT -->
+        <div class="time-section">
+            <div class="time-input-group">
+                <label>Spieldauer</label>
+                <div class="input-wrap">
+                    <input type="number" id="matchDuration" value="90" min="1" max="120">
+                    <span class="unit">min</span>
+                </div>
+            </div>
+            <div class="time-input-group">
+                <label>Eigene Spielzeit</label>
+                <div class="input-wrap">
+                    <input type="number" id="ownMinutes" value="90" min="0" max="120">
+                    <span class="unit">min</span>
+                </div>
+            </div>
+            <div class="time-info" id="timeInfo">
+                <span class="time-badge">🟢 Volle Spielzeit</span>
+            </div>
+        </div>
+
+        <!-- POSITIONEN -->
+        <div class="position-selector" id="positionSelector"></div>
+
+        <!-- STATS GRID -->
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button class="evaluate-btn" onclick="openResult()">
+                Performance bewerten
+            </button>
+            <button class="reset-btn" onclick="resetStats()">Zurücksetzen</button>
+        </div>
+
+        <div class="info-footer">
+            <span>⚡ 80/20 Gewichtung</span>
+            <span class="divider">|</span>
+            <span>🎯 Kategorien-gewichtet</span>
+        </div>
+    </div>
+
+    <!-- RESULT OVERLAY -->
+    <div class="result-overlay" id="resultOverlay">
+        <div class="result-container">
+            <div class="result-header">
+                <div class="logo">
+                    <h2>Bewertung</h2>
+                </div>
+                <button class="close-btn" onclick="closeResult()">✕</button>
+            </div>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+    </div>
+
+    <script src="src/main.js?v=6"></script>
+</body>
+</html>
