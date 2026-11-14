@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d4af37"/>
+      <stop offset="1" stop-color="#aa8c2c"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#2c1e16"/>
+  <!-- Buch -->
+  <path d="M18 14 L44 14 C48 14, 52 18, 52 22 L52 50 L18 50 Z" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="18" y1="14" x2="18" y2="50" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
+  <!-- Lesezeichen -->
+  <path d="M40 14 L40 30 L44 26 L48 30 L48 14" fill="url(#gold)"/>
+</svg>

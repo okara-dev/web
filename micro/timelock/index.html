@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TimeLock – Schreibe einen Brief an dein zukünftiges Ich.">
+    <meta name="author" content="Onur Kara">
+    <meta name="theme-color" content="#1e1b4b">
+    <title>TimeLock – Brief an dein zukünftiges Ich</title>
+    <link rel="icon" type="image/svg+xml" href="src/assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+    <!-- STERNE HINTERGRUND -->
+    <div class="stars-bg"></div>
+
+    <main class="app">
+
+        <!-- START SCREEN -->
+        <section id="start-screen" class="screen">
+            <div class="logo-mark">
+                <svg viewBox="0 0 64 64" width="64" height="64">
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#fbbf24"/>
+                            <stop offset="1" stop-color="#f59e0b"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="32" cy="32" r="28" fill="none" stroke="url(#grad)" stroke-width="2"/>
+                    <path d="M32 16 L32 48 M24 40 L32 48 L40 40" fill="none" stroke="url(#grad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="24" r="4" fill="url(#grad)"/>
+                </svg>
+            </div>
+            <h1 class="main-title">TimeLock</h1>
+            <p class="subtitle">Schreibe einen Brief an dein zukünftiges Ich.</p>
+            
+            <div class="start-actions">
+                <button class="btn btn-primary" id="btn-new-letter">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Neuen Brief schreiben
+                </button>
+                <button class="btn btn-outline hidden" id="btn-view-letters">
+                    Meine Briefe ansehen
+                </button>
+            </div>
+        </section>
+
+        <!-- WRITE SCREEN -->
+        <section id="write-screen" class="screen hidden">
+            <div class="header-nav">
+                <button class="btn-back" id="back-to-start">← Zurück</button>
+            </div>
+            
+            <div class="paper">
+                <div class="paper-header">
+                    <input type="text" id="letter-title" placeholder="Betreff (z.B. An mich in einem Jahr)" class="input-title" maxlength="60">
+                    <p class="paper-date" id="current-date">Heute, 14. November 2026</p>
+                </div>
+                
+                <textarea id="letter-text" class="letter-textarea" placeholder="Liebes zukünftiges Ich,&#10;&#10;wie geht es dir? Ich hoffe, du hast deine Ziele erreicht..."></textarea>
+
+                <div class="paper-footer">
+                    <div class="unlock-options">
+                        <label>Wann soll dieser Brief geöffnet werden?</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="unlock-time" value="3m" checked> In 3 Monaten</label>
+                            <label class="radio-label"><input type="radio" name="unlock-time" value="6m"> In 6 Monaten</label>
+                            <label class="radio-label"><input type="radio" name="unlock-time" value="1y"> In 1 Jahr</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-seal" id="btn-seal">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Versiegeln
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW LETTERS SCREEN -->
+        <section id="list-screen" class="screen hidden">
+            <div class="header-nav">
+                <button class="btn-back" id="back-from-list">← Zurück</button>
+            </div>
+            
+            <h2 class="section-title">Deine Briefe</h2>
+            <div id="letters-grid" class="letters-grid">
+                <!-- Karten werden dynamisch geladen -->
+            </div>
+        </section>
+
+        <!-- OPEN LETTER MODAL -->
+        <div id="open-modal" class="modal-overlay">
+            <div class="modal-content modal-letter">
+                <button class="btn-close-modal" id="close-letter-modal">✕</button>
+                <div class="letter-paper">
+                    <h2 id="read-letter-title" class="read-title">Titel</h2>
+                    <p id="read-letter-date" class="read-date">Geschrieben am...</p>
+                    <div id="read-letter-content" class="read-content"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="src/main.js"></script>
+</body>
+</html>
